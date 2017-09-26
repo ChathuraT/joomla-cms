@@ -61,10 +61,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 			// Load callback first for browser compatibility
 			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
 			
-			if ($this->params->get('version') === 'invisible')
-			{
-				$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptchaInvisible&render=explicit&hl=' . JFactory::getLanguage()->getTag();
-			}
+			
 			else
 			{
 				$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
@@ -94,15 +91,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		{
 			return '<div id="' . $id . '" ' . $class . '></div>';
 		}
-		elseif ($this->params->get('version') === 'invisible')
-		{
-			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
-					. ' data-sitekey="' . $this->params->get('public_key', '')
-					. '" data-callback="JoomlaSubmitReCaptchaInvisible'
-					. '" data-badge="' . $this->params->get('badge', 'bottomright')
-					. '" data-size="invisible'
-					. '"></div>';
-		}
+		
 		else
 		{
 			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
@@ -137,12 +126,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				$spam      = ($challenge === '' || $response === '');
 				break;
 			case '2.0':
-			case 'invisible':		
-				// Challenge Not needed in 2.0 but needed for getResponse call
-				$challenge = null;
-				$response  = $input->get('g-recaptcha-response', '', 'string');
-				$spam      = ($response === '');
-				break;
+			
 		}
 
 		// Check for Private Key
@@ -212,25 +196,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				}
 				break;
 			case '2.0':
-			case 'invisible':		
-				require_once 'recaptchalib.php';
-
-				$reCaptcha = new JReCaptcha($privatekey);
-				$response  = $reCaptcha->verifyResponse($remoteip, $response);
-
-				if ( !isset($response->success) || !$response->success)
-				{
-					// @todo use exceptions here
-					if (is_array($response->errorCodes))
-					{
-						foreach ($response->errorCodes as $error)
-						{
-							$this->_subject->setError($error);
-						}
-					}
-
-					return false;
-				}
+			
 				break;
 		}
 
