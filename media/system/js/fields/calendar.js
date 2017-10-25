@@ -1229,3 +1229,20 @@
 		};
 	});
 })(window, document);
+
+	/** Method to get the active calendar element through any descendant element. */
+	JoomlaCalendar.getCalObject = function(element) {
+		if (!element) {
+			return false;
+		}
+		while (element.parentNode) {
+			element = element.parentNode;
+			if (element.classList.contains('field-calendar')) {
+				return element;
+			}
+		}
+		return false;
+	};
+
+
+

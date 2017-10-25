@@ -106,7 +106,10 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
 	<div class="input-append">
-		
+		<?php endif; ?>
+		<input type="text" id="<?php echo $id; ?>" name="<?php
+		echo $name; ?>" value="<?php
+		echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attributes; ?>
 		<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?> data-alt-value="<?php
 		echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off"/>
 		<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-secondary"
