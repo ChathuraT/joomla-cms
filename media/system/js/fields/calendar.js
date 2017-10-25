@@ -1066,19 +1066,7 @@
 		};
 	}
 
-	/** Method to get the active calendar element through any descendant element. */
-	JoomlaCalendar.getCalObject = function(element) {
-		if (!element) {
-			return false;
-		}
-		while (element.parentNode) {
-			element = element.parentNode;
-			if (element.classList.contains('field-calendar')) {
-				return element;
-			}
-		}
-		return false;
-	};
+
 
 	/** Method to change input values with the data-alt-value values. **/
 	JoomlaCalendar.prototype.setAltValue = function() {
